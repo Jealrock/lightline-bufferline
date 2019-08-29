@@ -84,6 +84,24 @@ function! s:goto_nth_buffer(n)
   endif
 endfunction
 
+function! s:goto_next_buffer()
+  let l:buffers = s:filtered_buffers()
+  let l:current_index = index(l:buffers, bufnr('%'))
+
+  if l:current_index != -1 && l:current_index != len(l:buffers)
+    execute 'b' . l:buffers[l:current_index + 1]
+  endif
+endfunction
+
+function! s:goto_prev_buffer()
+  let l:buffers = s:filtered_buffers()
+  let l:current_index = index(l:buffers, bufnr('%'))
+
+  if l:current_index != -1 && l:current_index != 0
+    execute 'b' . l:buffers[l:current_index - 1]
+  endif
+endfunction
+
 function! s:get_buffer_names(buffers, from, to)
   let l:names = []
   for l:i in range(a:from, a:to - 1)
@@ -250,3 +268,5 @@ noremap <silent> <Plug>lightline#bufferline#go(7)  :call <SID>goto_nth_buffer(6)
 noremap <silent> <Plug>lightline#bufferline#go(8)  :call <SID>goto_nth_buffer(7)<CR>
 noremap <silent> <Plug>lightline#bufferline#go(9)  :call <SID>goto_nth_buffer(8)<CR>
 noremap <silent> <Plug>lightline#bufferline#go(10) :call <SID>goto_nth_buffer(9)<CR>
+noremap <silent> <Plug>lightline#bufferline#next() :call <SID>goto_next_buffer()<CR>
+noremap <silent> <Plug>lightline#bufferline#prev() :call <SID>goto_prev_buffer()<CR>
